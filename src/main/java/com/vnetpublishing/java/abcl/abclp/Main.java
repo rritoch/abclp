@@ -36,6 +36,7 @@ public class Main
 							(Function) mainFunctionSym.getSymbolFunction();
 					mainFunction.execute(cmdline);
 				} catch (ProcessingTerminated e) {
+					e.printStackTrace();
 					System.exit (e.getStatus ());
 				}
 			}
