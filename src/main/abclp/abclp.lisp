@@ -6,8 +6,8 @@
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
 
-(provide 'abclp)
-(in-package 'abclp)
+(defpackage #:abclp)
+(in-package #:abclp)
 
 
 (defun hello ()
