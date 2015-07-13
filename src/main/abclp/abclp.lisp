@@ -6,13 +6,17 @@
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
 
-(defpackage #:abclp)
-(in-package #:abclp)
+(defpackage abclp (:use common-lisp java))
+(in-package abclp)
 
+
+(defun exit ()
+	"Exit"
+	(jcall (jmethod (jclass "java.lang.System") "exit" (jclass "int")) nil 0))
 
 (defun hello ()
 	"Hello World!"
-	(print "ABC Lisp Packager"))
+	(format t "ABC Lisp Packager~%"))
 
 (defun main (args)
 	"ABCLP Main entry point"
