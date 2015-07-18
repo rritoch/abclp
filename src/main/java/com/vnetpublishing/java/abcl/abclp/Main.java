@@ -27,7 +27,7 @@ public class Main
  
 					Interpreter.createInstance ();
 					//Load.load ("abclp.lisp");
-					Load.loadSystemFile ("/abclp.lisp", false, false, false);
+					Load.loadSystemFile ("/META-INF/abcl/abclp/abclp.lisp", false, false, false);
 					Package abclpPackage = Packages.findPackage("ABCLP");
 					Symbol mainFunctionSym =
 							abclpPackage.findAccessibleSymbol("MAIN");
