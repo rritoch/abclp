@@ -5,7 +5,7 @@
 ;;; @author Ralph Ritoch <rritoch@gmail.com>
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
-(defpackage abclp (:use common-lisp java sys) (:export "LOAD-PACKAGE"))
+(defpackage abclp (:use common-lisp java sys) (:export "MAIN" "LOAD-PACKAGE"))
 (in-package abclp)
 
 
@@ -80,7 +80,7 @@
   (hello)
   (let* ((cmd (or (first args) "help"))
          (package (string-upcase (concatenate 'string "abclp/" cmd))))
-    (load-package package)
+    (or (find-package package) (load-package package))
     (dyncall package cmd (read-project) args))
   (exit))
   

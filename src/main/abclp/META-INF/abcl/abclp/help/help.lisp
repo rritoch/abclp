@@ -12,10 +12,9 @@
    (list "help" "repl"))
 
 (defun command-documentation (cmd)
-
   (let* ((package (string-upcase (concatenate 'string "abclp/" cmd)))
-         (cmdfun (string-upcase (concatenate 'string package "::" cmd)))
-         (cmd-sym (find-symbol (string-upcase cmd) (load-package package)))
+         (package-sym (or (find-package package) (load-package package)))
+         (cmd-sym (find-symbol (string-upcase cmd) package-sym))
          (rval (documentation cmd-sym 'function)))
 	(or rval (concatenate 'string "?" (string cmd-sym) "?"))))
 
