@@ -57,7 +57,7 @@
     </plugins>
   </build>
   <properties>
-    <abcl.version>1.0.1</abcl.version>
+    <abcl.version>1.4.0-SNAPSHOT</abcl.version>
   </properties>
 </project>
 
