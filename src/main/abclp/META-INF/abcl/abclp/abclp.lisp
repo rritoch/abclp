@@ -65,7 +65,15 @@
 
 (defun read-project ()
   (if (probe-file "project.lisp")
-      (partition-list (rest (read-file "project.lisp")) 2)))
+      (let* ((in (rest (read-file "project.lisp")))
+             (name (first in))
+             (version (second in))
+             (cfg (map 'list 
+                       (lambda (x) 
+                        (first (pairlis (list (first x))
+                                        (list (second x))))) 
+                       (partition-list (nthcdr 2 in) 2))))
+         (acons :name name (acons :version version cfg)))))
 
 (defun dyncall (package fname &rest args)
   "Call function by package name and name with provided arguments"
