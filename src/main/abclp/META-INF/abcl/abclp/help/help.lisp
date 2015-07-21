@@ -12,6 +12,7 @@
    (list "help" "repl"))
 
 (defun command-documentation (cmd)
+
   (let* ((package (string-upcase (concatenate 'string "abclp/" cmd)))
          (cmdfun (string-upcase (concatenate 'string package "::" cmd)))
          (cmd-sym (find-symbol (string-upcase cmd) (load-package package)))
@@ -20,7 +21,7 @@
 
 (defun help (project args)
 	"Display available documentation"
-	
+	(trace documentation) ;;; REMOVE ME!	
 	(format t "~%Commands~%")
 	(format t "--------------------------------------~%")
 	(dolist (x (find-commands))
