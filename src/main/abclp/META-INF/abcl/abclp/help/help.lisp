@@ -11,22 +11,26 @@
 (defun find-commands ()
    (list "help" "repl"))
 
+(defun load-documentation (cmd)
+  (let ((package (string-upcase (concatenate 'string "abclp/" cmd))))
+    (or (find-package package) (load-package package))))
+
 (defun command-documentation (cmd)
   (let* ((package (string-upcase (concatenate 'string "abclp/" cmd)))
-         (package-sym (or (find-package package) (load-package package)))
+         (package-sym (find-package package))
          (cmd-sym (find-symbol (string-upcase cmd) package-sym))
          (rval (documentation cmd-sym 'function)))
 	(or rval (concatenate 'string "?" (string cmd-sym) "?"))))
 
 (defun help (project args)
 	"Display available documentation"
-	(trace documentation) ;;; REMOVE ME!	
+	;;(trace documentation) ;;; REMOVE ME!	
 	(format t "~%Commands~%")
 	(format t "--------------------------------------~%")
-	(dolist (x (find-commands))
-	   (format t x)
+	(dolist (cmd (find-commands))
+	   (load-documentation cmd)
+	   (format t "~a" cmd)
 	   (format t " - ")
-	   (format t (command-documentation x))
+	   (format t "~a" (command-documentation cmd))
 	   (format t "~%"))
 	(format t "~%Done.~%"))
-	  

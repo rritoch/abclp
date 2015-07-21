@@ -9,8 +9,7 @@
 (in-package abclp/repl)
 
 (defun prompt ()
-  (format t "" #\newline)
-  (format t "> ")
+  (format t "~%~a: " (package-name *package*))
   (finish-output))
 
 (defun display-error (err)
@@ -22,5 +21,3 @@
 	  (prompt)
 	  (handler-case (print (eval (read)))
 	    (condition (condition) (display-error condition)))))
-	  
-	  
