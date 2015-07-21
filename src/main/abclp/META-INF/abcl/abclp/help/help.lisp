@@ -13,9 +13,10 @@
 
 (defun command-documentation (cmd)
   (let* ((package (string-upcase (concatenate 'string "abclp/" cmd)))
-        (cmdfun (string-upcase (concatenate 'string package "::" cmd))))
-    (load-package package)
-	(or (documentation (make-symbol cmdfun) 'function) (concatenate 'string "?" cmdfun "?"))))
+         (cmdfun (string-upcase (concatenate 'string package "::" cmd)))
+         (cmd-sym (find-symbol (string-upcase cmd) (load-package package)))
+         (rval (documentation cmd-sym 'function)))
+	(or rval (concatenate 'string "?" (string cmd-sym) "?"))))
 
 (defun help (project args)
 	"Display available documentation"

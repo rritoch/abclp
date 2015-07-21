@@ -72,7 +72,8 @@
   (apply (intern (string-upcase fname) (make-symbol (string-upcase package))) args))
 
 (defun load-package (package)
-  (load-system-file (package-source package)))
+  (load-system-file (package-source package))
+  (find-package package))
 
 (defun main (args)
   "ABCLP Main entry point"
