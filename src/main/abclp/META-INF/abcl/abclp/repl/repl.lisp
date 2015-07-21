@@ -5,8 +5,8 @@
 ;;; @author Ralph Ritoch <rritoch@gmail.com>
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
-(defpackage abclp-repl (:use abclp common-lisp java))
-(in-package abclp-repl)
+(defpackage abclp/repl (:use abclp common-lisp java) (:export "REPL"))
+(in-package abclp/repl)
 
 (defun prompt ()
   (format t "" #\newline)
