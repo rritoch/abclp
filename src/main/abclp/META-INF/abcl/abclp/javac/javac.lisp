@@ -17,6 +17,30 @@
              do (jarray-set ret (nth x items) x))
        ret))
 
+(defun str-starts-with (s prefix)
+  (if (>= (length s) (length prefix))
+      (string= prefix (subseq s 0 (length prefix))))) 
+
+(defun relative-path-str (p-base p-ref)
+   (subseq (directory-namestring p-ref) (length (directory-namestring p-base)))) 
+
+(defun is-directory (p)
+  (let ((name (namestring p)))
+     (if (< 0 (length name))
+         (string= "/" (subseq name (- (length name) 1))))))
+
+(defun all-files-deep (basepath path)
+  (let* ((canonical-basepath (truename basepath))
+         (current-dir (truename (merge-pathnames (or path ".") canonical-basepath)))
+         (ret (list)))
+        (if (str-starts-with (namestring current-dir) (namestring canonical-basepath))
+            ;; Get files and directories
+            (loop for p in (directory (make-pathname :name "*" :type nil :defaults current-dir))
+                  do (if (is-directory p)
+                         (setq ret (append ret (all-files-deep basepath (relative-path-str canonical-basepath p))))
+                         (setq ret (append ret (list p))))))
+        ret))
+
 (defun javac (project args)
 	"Compile Java Sources"	
 	nil)
