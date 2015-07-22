@@ -43,9 +43,34 @@
 (defun all-sources (project)
    (let ((source-dirs (cdr (assoc :java-source-paths project))))
       (loop for dir in source-dirs
-            append (all-files-deep dir nil))))
+            append (map 'list (lambda (x) (list x dir)) (all-files-deep dir nil)))))
+
+(defun get-compile-path (project)
+   (let ((raw-path (cdr (assoc :compile-path project))))
+      (if (string= "/" 
+                   (subseq raw-path 
+                           (- (length raw-path) 1)))
+          raw-path
+          (format nil "~a/" raw-path))))
+
+(defun compile (project files)
+   (ensure-directories-exist (get-compile-path project))
+   (let ((cfg (append (list (format nil "-d ~a" (namestring (truename (get-compile-path project))))) 
+                      (map 'list (lambda (x) (namestring (truename (first x)))) files))))
+        (format t "javac args = ~a~%" cfg)
+        (jcall (jmethod (jclass "javax.tools.JavaCompiler") 
+                        "run" 
+                        (jclass "java.io.InputStream") 
+                        (jclass "java.io.OutputStream") 
+                        (jclass "java.io.OutputStream")
+                        (jclass "[Ljava.lang.String;")) 
+               (get-compiler) 
+               nil 
+               nil 
+               nil 
+               (to-str-array cfg ))))
 
 (defun javac (project args)
 	"Compile Java Sources"
-nil)
+  (compile project (all-sources project)))
 	
