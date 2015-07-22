@@ -5,8 +5,9 @@
 ;;; @author Ralph Ritoch <rritoch@gmail.com>
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
-(defpackage abclp/javac (:use abclp common-lisp java) (:export "HELP"))
+(defpackage abclp/javac (:use abclp common-lisp java) (:export "JAVAC"))
 (in-package abclp/javac)
+
 
 (defun get-compiler ()
   (jcall (jmethod (jclass "javax.tools.ToolProvider") "getSystemJavaCompiler") nil))
@@ -30,15 +31,21 @@
          (string= "/" (subseq name (- (length name) 1))))))
 
 (defun all-files-deep (basepath path)
-  (let* ((canonical-basepath (truename basepath))
-         (current-dir (truename (merge-pathnames (or path ".") canonical-basepath))))
-        (if (str-starts-with (namestring current-dir) (namestring canonical-basepath))
-            (loop for p in (directory (make-pathname :name "*" :type nil :defaults current-dir))
-                  append (if (is-directory p)
-                             (all-files-deep basepath (relative-path-str canonical-basepath p))
-                             (list p)))
-            (list))))
+  (when (probe-file basepath)
+    (let* ((canonical-basepath (truename basepath))
+           (current-dir (truename (merge-pathnames (or path ".") canonical-basepath))))
+          (when (str-starts-with (namestring current-dir) (namestring canonical-basepath))
+              (loop for p in (directory (make-pathname :name "*" :type nil :defaults current-dir))
+                    append (if (is-directory p)
+                               (all-files-deep basepath (relative-path-str canonical-basepath p))
+                               (list p)))))))
+
+(defun all-sources (project)
+   (let ((source-dirs (cdr (assoc :java-source-paths project))))
+      (loop for dir in source-dirs
+            append (all-files-deep dir nil))))
 
 (defun javac (project args)
-	"Compile Java Sources"	
-	nil)
+	"Compile Java Sources"
+nil)
+	

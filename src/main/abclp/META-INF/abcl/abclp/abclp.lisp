@@ -8,6 +8,8 @@
 (defpackage abclp (:use common-lisp java sys) (:export "MAIN" "LOAD-PACKAGE"))
 (in-package abclp)
 
+;; TODO: See http://paste.lisp.org/display/152082#3
+;; TODO: See http://paste.lisp.org/display/152082#2
 
 (defun interpose (col sep)
    (reverse (cdr (reverse (loop for x in col
