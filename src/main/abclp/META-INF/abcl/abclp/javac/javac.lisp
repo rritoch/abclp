@@ -31,15 +31,13 @@
 
 (defun all-files-deep (basepath path)
   (let* ((canonical-basepath (truename basepath))
-         (current-dir (truename (merge-pathnames (or path ".") canonical-basepath)))
-         (ret (list)))
+         (current-dir (truename (merge-pathnames (or path ".") canonical-basepath))))
         (if (str-starts-with (namestring current-dir) (namestring canonical-basepath))
-            ;; Get files and directories
             (loop for p in (directory (make-pathname :name "*" :type nil :defaults current-dir))
-                  do (if (is-directory p)
-                         (setq ret (append ret (all-files-deep basepath (relative-path-str canonical-basepath p))))
-                         (setq ret (append ret (list p))))))
-        ret))
+                  append (if (is-directory p)
+                             (all-files-deep basepath (relative-path-str canonical-basepath p))
+                             (list p)))
+            (list))))
 
 (defun javac (project args)
 	"Compile Java Sources"	
