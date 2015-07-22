@@ -12,9 +12,6 @@
   (format t "~%~a: " (package-name *package*))
   (finish-output))
 
-(defun display-error (err)
-   (print err))
-
 (defun repl (project args)
 	"ABCLP REPL"
 	(loop 
