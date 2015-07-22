@@ -53,7 +53,7 @@
           raw-path
           (format nil "~a/" raw-path))))
 
-(defun compile-low (cfg)
+(defun java-compile-low (cfg)
   (jcall (jmethod (jclass "javax.tools.JavaCompiler") 
                                 "run" 
                                 (jclass "java.io.InputStream") 
@@ -61,20 +61,21 @@
                                 (jclass "java.io.OutputStream")
                                 (jclass "[Ljava.lang.String;")) 
                        (get-compiler) 
-                       nil 
-                       nil 
-                       nil 
+                       +null+
+                       +null+ 
+                       +null+
                        (to-str-array cfg)))
 
-(defun compile (project files)
+(defun java-compile (project files)
    (ensure-directories-exist (get-compile-path project))
    (let ((cfg (append (list (format nil "-d ~a" (namestring (truename (get-compile-path project))))) 
                       (map 'list (lambda (x) (namestring (truename (first x)))) files))))
         (format t "javac args = ~a~%" cfg)
-        (handler-case (compile-low cfg)
+        (trace jcall)
+        (handler-case (java-compile-low cfg)
                       (condition (err) (display-error err)))))
 
 (defun javac (project args)
 	"Compile Java Sources"
-  (compile project (all-sources project)))
+  (java-compile project (all-sources project)))
 	
