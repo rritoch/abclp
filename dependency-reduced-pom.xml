@@ -56,15 +56,6 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>com.sun</groupId>
-      <artifactId>tools</artifactId>
-      <version>1.5</version>
-      <scope>system</scope>
-      <systemPath>C:\Program Files\Java\jdk1.8.0_20\jre/../lib/tools.jar</systemPath>
-    </dependency>
-  </dependencies>
   <properties>
     <abcl.version>1.4.0-SNAPSHOT</abcl.version>
   </properties>

@@ -68,10 +68,9 @@
 
 (defun java-compile (project files)
    (ensure-directories-exist (get-compile-path project))
-   (let ((cfg (append (list (format nil "-d ~a" (namestring (truename (get-compile-path project))))) 
+   (let ((cfg (append (list "-d" (namestring (truename (get-compile-path project)))) 
                       (map 'list (lambda (x) (namestring (truename (first x)))) files))))
         (format t "javac args = ~a~%" cfg)
-        (trace jcall)
         (handler-case (java-compile-low cfg)
                       (condition (err) (display-error err)))))
 
