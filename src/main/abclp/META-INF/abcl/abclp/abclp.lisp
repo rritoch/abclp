@@ -5,7 +5,7 @@
 ;;; @author Ralph Ritoch <rritoch@gmail.com>
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
-(defpackage abclp (:use common-lisp java sys) (:export "DISPLAY-ERROR" "MAIN" "LOAD-PACKAGE"))
+(defpackage abclp (:use common-lisp java sys) (:export "DISPLAY-ERROR" "MAIN" "LOAD-PACKAGE" "IS-DIRECTORY"))
 (in-package abclp)
 
 ;; TODO: See http://paste.lisp.org/display/152082#3
@@ -39,7 +39,7 @@
              (cons s-in r))))))
     (funcall s1 s1 string separator nil)))
 
-    
+
 (defun string-join (list &optional (delimiter " "))
   (format nil "~{~a~}" (interpose list delimiter)))
 
@@ -48,6 +48,11 @@
          (result (if in (read in))))
      (close in)
      result))
+
+(defun is-directory (p)
+  (let ((name (namestring p)))
+     (if (< 0 (length name))
+         (string= "/" (subseq name (- (length name) 1))))))
 
 (defun exit ()
   "Exit"

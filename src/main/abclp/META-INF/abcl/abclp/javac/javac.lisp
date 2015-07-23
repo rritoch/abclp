@@ -25,11 +25,6 @@
 (defun relative-path-str (p-base p-ref)
    (subseq (directory-namestring p-ref) (length (directory-namestring p-base)))) 
 
-(defun is-directory (p)
-  (let ((name (namestring p)))
-     (if (< 0 (length name))
-         (string= "/" (subseq name (- (length name) 1))))))
-
 (defun all-files-deep (basepath path)
   (when (probe-file basepath)
     (let* ((canonical-basepath (truename basepath))
