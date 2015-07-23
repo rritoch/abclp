@@ -5,11 +5,14 @@
 ;;; @author Ralph Ritoch <rritoch@gmail.com>
 ;;; @copyright (c) Ralph Ritoch 2015 - ALL RIGHTS RESERVED
 
-(defpackage abclp (:use common-lisp java sys) (:export "DISPLAY-ERROR" "MAIN" "LOAD-PACKAGE" "IS-DIRECTORY"))
+(defpackage abclp (:use common-lisp java sys) (:export "DISPLAY-ERROR" "MAIN" "LOAD-PACKAGE" "IS-DIRECTORY" "FIND-COMMANDS"))
 (in-package abclp)
 
 ;; TODO: See http://paste.lisp.org/display/152082#3
 ;; TODO: See http://paste.lisp.org/display/152082#2
+
+(defun find-commands ()
+   (list "help" "repl" "javac" "lispc"))
 
 (defun interpose (col sep)
    (reverse (cdr (reverse (loop for x in col

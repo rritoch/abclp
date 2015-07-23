@@ -8,8 +8,7 @@
 (defpackage abclp/help (:use abclp common-lisp java) (:export "HELP"))
 (in-package abclp/help)
 
-(defun find-commands ()
-   (list "help" "repl"))
+
 
 (defun load-documentation (cmd)
   (let ((package (string-upcase (concatenate 'string "abclp/" cmd))))
